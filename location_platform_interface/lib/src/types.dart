@@ -9,7 +9,7 @@ part of location_platform_interface;
 /// speedAccuracy cannot be provided on iOS and thus is always 0.
 class LocationData {
   LocationData._(this.latitude, this.longitude, this.accuracy, this.altitude,
-      this.speed, this.speedAccuracy, this.heading, this.time);
+      this.speed, this.speedAccuracy, this.heading, this.time, this.isMock);
 
   factory LocationData.fromMap(Map<String, double> dataMap) {
     return LocationData._(
@@ -21,6 +21,7 @@ class LocationData {
       dataMap['speed_accuracy'],
       dataMap['heading'],
       dataMap['time'],
+      dataMap['is_mock'],
     );
   }
 
@@ -58,6 +59,12 @@ class LocationData {
   /// timestamp of the LocationData
   final double time;
 
+  /// is mocked:
+  /// 0 - cant check
+  /// 1 - mocked
+  /// 2 - not mocked
+  final double isMock;
+
   @override
   String toString() => 'LocationData<lat: $latitude, long: $longitude>';
 
@@ -73,7 +80,8 @@ class LocationData {
           speed == other.speed &&
           speedAccuracy == other.speedAccuracy &&
           heading == other.heading &&
-          time == other.time;
+          time == other.time &&
+          isMock == other.isMock;
 
   @override
   int get hashCode =>
@@ -84,7 +92,8 @@ class LocationData {
       speed.hashCode ^
       speedAccuracy.hashCode ^
       heading.hashCode ^
-      time.hashCode;
+      time.hashCode ^
+      isMock.hashCode;
 }
 
 /// Precision of the Location. A lower precision will provide a greater battery
