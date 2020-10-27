@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.OnNmeaMessageListener;
+import android.provider.Settings;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
