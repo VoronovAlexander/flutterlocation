@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.OnNmeaMessageListener;
+import android.provider.Settings;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
@@ -228,6 +229,21 @@ class FlutterLocation
                 }
                 loc.put("heading", (double) location.getBearing());
                 loc.put("time", (double) location.getTime());
+
+                // 0 - cant check
+                // 1 - mocked
+                // 2 - not mocked
+                double isMock = 0;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    isMock = location.isFromMockProvider()
+                        ? 1.0
+                        : 2.0;
+                } else {
+                    isMock = !Settings.Secure.getString(applicationContext.getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")
+                        ? 1.0
+                        : 2.0;
+                }
+                loc.put("is_mock", isMock);
 
                 if (getLocationResult != null) {
                     getLocationResult.success(loc);
