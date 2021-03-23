@@ -215,7 +215,7 @@ public class FlutterLocation
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 Location location = locationResult.getLastLocation();
-                HashMap<String, Double> loc = new HashMap<>();
+                HashMap<String, Object> loc = new HashMap<>();
                 loc.put("latitude", location.getLatitude());
                 loc.put("longitude", location.getLongitude());
                 loc.put("accuracy", (double) location.getAccuracy());
@@ -233,6 +233,8 @@ public class FlutterLocation
                 }
                 loc.put("heading", (double) location.getBearing());
                 loc.put("time", (double) location.getTime());
+
+                loc.put("is_mock", location.isFromMockProvider());
 
                 if (getLocationResult != null) {
                     getLocationResult.success(loc);
